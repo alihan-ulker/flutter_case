@@ -23,7 +23,7 @@ class AppUtils {
   //       clearStack: true, transition: TransitionType.fadeIn);
   // }
 
-  // static void startPop(BuildContext context) {
-  //   RouteService.router.pop(context);
-  // }
+  static void startPop(BuildContext context) {
+    RouteService.router.pop(context);
+  }
 }

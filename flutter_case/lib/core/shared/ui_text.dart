@@ -10,7 +10,7 @@ class UIText {
   static String appBar = "Kendini İfade Et!";
   static String profilePhoto = "Profil Fotoğrafı";
   static String profilePhotoTitle =
-      "Aydınlık ve belirgin bir profil fotoğrafı, başvurunuzu öne çıkarmak için oldukta önemlidir. :)";
+      "Aydınlık ve belirgin bir profil fotoğrafı, başvurunuzu \nöne çıkarmak için oldukça önemlidir. :)";
 
   static String gender = "Cinsiyetiniz";
   static String genderWoman = "Kadın";

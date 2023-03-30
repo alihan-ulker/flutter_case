@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_case/core/service/service_route.dart';
+import 'package:flutter_case/core/shared/ui_color.dart';
 import 'package:flutter_case/core/shared/ui_text.dart';
 import 'package:flutter_case/source/views/welcome_page.dart';
 
@@ -10,8 +11,8 @@ void main() {
   RouteService.setupRouter();
   runApp(const MyApp());
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.black,
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: UIColor.blue,
       statusBarIconBrightness: Brightness.dark,
       statusBarBrightness: Brightness.dark));
   log('\n==> Application Started!');
