@@ -34,7 +34,7 @@ class UIText {
   static String rentalAmount = "Mevcut Kira Miktarınız";
   static String rentalAmountHint = "7.000";
 
-  static String priceRange = "Kiralamak İstediğiniz Mülkün Fiyat Aralığı";
+  static String priceRange = "Kiralamak İstediğiniz Mülkün \nFiyat Aralığı";
   static String lowest = "En Düşük";
   static String lowestHint = "1.500";
   static String highest = "En Yüksek";
@@ -44,7 +44,7 @@ class UIText {
       "Yeni ev sahibinize biraz kendinizden bahsedin.";
   static String aboutYourselfHint = "Örn; Taşınma nedenim şudur...";
   static String aboutYourselfFormHint =
-      "Merhaba, ben ailem ile beraber İstanbul'dan iş için İzmir/Karşıyaka'ya taşınıyorum. Evinizin konumu ofisime çok yakın.";
+      "Merhaba, ben ailem ile beraber İstanbul'dan iş için İzmir/\nKarşıyaka'ya taşınıyorum. Evinizin konumu ofisime çok yakın.";
 
   static String dateHint = " tarihinde güncellendi.";
 

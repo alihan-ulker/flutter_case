@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_case/core/shared/ui_color.dart';
 import 'package:flutter_case/core/shared/ui_text.dart';
+import 'package:intl/intl.dart';
 
 class ExpressYourselfPage extends StatefulWidget {
   const ExpressYourselfPage({Key? key}) : super(key: key);
@@ -11,8 +14,17 @@ class ExpressYourselfPage extends StatefulWidget {
 
 class ExpressYourselfPageState extends State<ExpressYourselfPage> {
   late MediaQueryData mediaQueryData = MediaQuery.of(context);
+  TextEditingController? _textEditingController;
+  final _formKey = GlobalKey<FormState>();
   String? monthlySalaryValue;
-  bool visibleValue = false;
+  bool visibleValue = true;
+  RangeValues _currentRangeValues = const RangeValues(1500, 4500);
+  double? _startValue;
+  double? _endValue;
+  DateTime dateTime = DateTime.now();
+  // DateFormat dateTimeFormat = DateFormat.yMMMMd();
+  // String dateTime = dateTimeFormat.format(DateTime.now());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -372,6 +384,7 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                         onTap: () {},
                         onSaved: (inputValue) =>
                             monthlySalaryValue = inputValue,
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           hintText: "25.000",
                           suffixIcon: const Icon(Icons.currency_lira_rounded),
@@ -399,7 +412,7 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 20.0, top: 18.0, right: 20.0, bottom: 80.0),
+                          left: 20.0, top: 18.0, right: 20.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -450,8 +463,8 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20.0, top: 18.0, bottom: 80.0),
+                            padding:
+                                const EdgeInsets.only(left: 20.0, top: 18.0),
                             child: Row(
                               children: [
                                 SizedBox(
@@ -475,6 +488,224 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                                   ),
                                 ),
                               ],
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 20.0, top: 18.0),
+                            child: Row(
+                              children: [
+                                TextButton.icon(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.add),
+                                  label: Text(UIText.addIncome),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    //Rental Amount
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            UIText.rentalAmount,
+                            style: TextStyle(
+                                color: UIColor.darkGray, fontSize: 16.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20.0, top: 18.0, right: 20.0),
+                      child: TextFormField(
+                        onTap: () {},
+                        onSaved: (inputValue) =>
+                            monthlySalaryValue = inputValue,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          hintText: "7.000",
+                          suffixIcon: const Icon(Icons.currency_lira_rounded),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 1, color: UIColor.gray),
+                            //borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    //Price Range
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            UIText.priceRange,
+                            style: TextStyle(
+                                color: UIColor.darkGray, fontSize: 16.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: RangeSlider(
+                        min: 0.0,
+                        max: 100000.0,
+                        values: _currentRangeValues,
+                        labels: RangeLabels(
+                          _currentRangeValues.start.round().toString(),
+                          _currentRangeValues.end.round().toString(),
+                        ),
+                        inactiveColor: UIColor.gray,
+                        onChanged: (values) {
+                          setState(() {
+                            _currentRangeValues = values;
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20.0, top: 18.0, right: 20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(UIText.lowest),
+                          Text(UIText.highest),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20.0, top: 18.0, right: 20.0),
+                      child: Form(
+                        key: _formKey,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              height: 50.0,
+                              width: mediaQueryData.size.width * 0.38,
+                              child: TextFormField(
+                                controller: _textEditingController,
+                                onSaved: (inputValue) {
+                                  _startValue = inputValue! as double;
+                                  log(_startValue.toString());
+                                },
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: "1.500",
+                                  suffixIcon:
+                                      const Icon(Icons.currency_lira_rounded),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 1, color: UIColor.gray),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 50.0,
+                              width: mediaQueryData.size.width * 0.38,
+                              child: TextFormField(
+                                onSaved: (inputValue) =>
+                                    _endValue = inputValue as double,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: "4.500",
+                                  suffixIcon:
+                                      const Icon(Icons.currency_lira_rounded),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 1, color: UIColor.gray),
+                                    //borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    //About Yourself
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            UIText.aboutYourself,
+                            style: TextStyle(
+                                color: UIColor.darkGray, fontSize: 16.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            UIText.aboutYourselfHint,
+                            style:
+                                TextStyle(color: UIColor.gray, fontSize: 16.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20.0, top: 18.0, right: 20.0),
+                      child: TextField(
+                        maxLines: 6,
+                        maxLength: 300,
+                        decoration: InputDecoration(
+                          hintText: UIText.aboutYourselfFormHint,
+                          hintStyle: const TextStyle(fontSize: 12.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    //Update Date
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            "${dateTime.day}.${dateTime.month}.${dateTime.year} tarihinde güncellendi.",
+                            style: TextStyle(
+                              color: UIColor.chooseButtonColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    //Save Button
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20.0, top: 18.0, bottom: 80.0),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            height: 50.0,
+                            width: mediaQueryData.size.width * 0.47,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: UIColor.saveButtonColor,
+                              ),
+                              child: Text(UIText.saveButton),
                             ),
                           ),
                         ],

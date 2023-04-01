@@ -38,6 +38,8 @@ dependencies:
 
   #router
   fluro: ^2.0.5
+  
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:
