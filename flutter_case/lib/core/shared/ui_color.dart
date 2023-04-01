@@ -14,4 +14,5 @@ class UIColor {
   static Color profileBackground = const Color(0xFF707070);
   static Color buttonBorder = const Color(0xFF006AFF);
   static Color lightButtonBorder = const Color(0xFFEDE8E9);
+  static Color chooseButtonColor = const Color(0xFF908E8E);
 }

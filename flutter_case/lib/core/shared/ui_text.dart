@@ -29,6 +29,7 @@ class UIText {
   static String currency = "TL";
 
   static String additionalIncome = "Ek Geliriniz Var mı?";
+  static String additionalIncomeType = "Gelir Tipi:";
 
   static String rentalAmount = "Mevcut Kira Miktarınız";
   static String rentalAmountHint = "7.000";

@@ -11,6 +11,8 @@ class ExpressYourselfPage extends StatefulWidget {
 
 class ExpressYourselfPageState extends State<ExpressYourselfPage> {
   late MediaQueryData mediaQueryData = MediaQuery.of(context);
+  String? monthlySalaryValue;
+  bool visibleValue = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,7 +231,11 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                             height: 50.0,
                             width: mediaQueryData.size.width * 0.43,
                             child: OutlinedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  visibleValue = true;
+                                });
+                              },
                               child: Text(UIText.yesButton),
                             ),
                           ),
@@ -237,7 +243,11 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                             height: 50.0,
                             width: mediaQueryData.size.width * 0.43,
                             child: OutlinedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  visibleValue = false;
+                                });
+                              },
                               child: Text(UIText.noButton),
                             ),
                           ),
@@ -246,64 +256,230 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                     ),
 
                     //Pet Count Buttons
+                    Visibility(
+                      visible: visibleValue,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 20.0, top: 18.0, bottom: 18.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  UIText.petTitle,
+                                  style: TextStyle(
+                                      color: UIColor.darkGray, fontSize: 16.0),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              SizedBox(
+                                height: 50.0,
+                                width: mediaQueryData.size.width * 0.9,
+                                child: OutlinedButton(
+                                  onPressed: () {},
+                                  child: Text(UIText.countButtonOne),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: SizedBox(
+                                  height: 50.0,
+                                  width: mediaQueryData.size.width * 0.9,
+                                  child: OutlinedButton(
+                                    onPressed: () {},
+                                    child: Text(UIText.countButtonTwo),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: SizedBox(
+                                  height: 50.0,
+                                  width: mediaQueryData.size.width * 0.9,
+                                  child: OutlinedButton(
+                                    onPressed: () {},
+                                    child: Text(UIText.countButtonThree),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    //Educational Status
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20.0, top: 18.0, bottom: 18.0),
+                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
                       child: Row(
                         children: [
                           Text(
-                            UIText.petTitle,
+                            UIText.educationalStatus,
                             style: TextStyle(
                                 color: UIColor.darkGray, fontSize: 16.0),
                           ),
                         ],
                       ),
                     ),
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 50.0,
-                          width: mediaQueryData.size.width * 0.9,
-                          child: OutlinedButton(
-                            onPressed: () {},
-                            child: Text(UIText.countButtonOne),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: SizedBox(
-                            height: 50.0,
-                            width: mediaQueryData.size.width * 0.9,
-                            child: OutlinedButton(
-                              onPressed: () {},
-                              child: Text(UIText.countButtonTwo),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: SizedBox(
-                            height: 50.0,
-                            width: mediaQueryData.size.width * 0.9,
-                            child: OutlinedButton(
-                              onPressed: () {},
-                              child: Text(UIText.countButtonThree),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    //Educational Status
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20.0, top: 18.0, bottom: 60.0),
+                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
                       child: Row(
                         children: [
-                          Text(UIText.educationalStatus),
+                          SizedBox(
+                            height: 50.0,
+                            width: mediaQueryData.size.width * 0.9,
+                            child: OutlinedButton(
+                              onPressed: () {},
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    UIText.dropdownHint,
+                                    style: TextStyle(
+                                        color: UIColor.chooseButtonColor,
+                                        fontSize: 14.0),
+                                  ),
+                                  const Icon(Icons.wheelchair_pickup),
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
                       ),
-                    )
+                    ),
+
+                    //Monthly Salary
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            UIText.monthlySalary,
+                            style: TextStyle(
+                                color: UIColor.darkGray, fontSize: 16.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20.0, top: 18.0, right: 20.0),
+                      child: TextFormField(
+                        onTap: () {},
+                        onSaved: (inputValue) =>
+                            monthlySalaryValue = inputValue,
+                        decoration: InputDecoration(
+                          hintText: "25.000",
+                          suffixIcon: const Icon(Icons.currency_lira_rounded),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 1, color: UIColor.gray),
+                            //borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    //Additional Income
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            UIText.additionalIncome,
+                            style: TextStyle(
+                                color: UIColor.darkGray, fontSize: 16.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20.0, top: 18.0, right: 20.0, bottom: 80.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            height: 50.0,
+                            width: mediaQueryData.size.width * 0.43,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                setState(() {
+                                  visibleValue = true;
+                                });
+                              },
+                              child: Text(UIText.yesButton),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 50.0,
+                            width: mediaQueryData.size.width * 0.43,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                setState(() {
+                                  visibleValue = false;
+                                });
+                              },
+                              child: Text(UIText.noButton),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    //Additional Income Type
+                    Visibility(
+                      visible: visibleValue,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 20.0, top: 18.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  UIText.additionalIncomeType,
+                                  style: TextStyle(
+                                      color: UIColor.darkGray, fontSize: 16.0),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 20.0, top: 18.0, bottom: 80.0),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  height: 50.0,
+                                  width: mediaQueryData.size.width * 0.9,
+                                  child: OutlinedButton(
+                                    onPressed: () {},
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          UIText.dropdownHint,
+                                          style: TextStyle(
+                                              color: UIColor.chooseButtonColor,
+                                              fontSize: 14.0),
+                                        ),
+                                        const Icon(Icons.wheelchair_pickup),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ],
