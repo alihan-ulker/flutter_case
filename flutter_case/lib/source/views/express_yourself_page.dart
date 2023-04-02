@@ -1,11 +1,12 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_case/core/service/service_route.dart';
 import 'package:flutter_case/core/shared/ui_color.dart';
 import 'package:flutter_case/core/shared/ui_text.dart';
 import 'package:flutter_case/core/utils/app_utils.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_case/source/views/educational_status_page.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ExpressYourselfPage extends StatefulWidget {
   const ExpressYourselfPage({Key? key}) : super(key: key);
@@ -15,17 +16,60 @@ class ExpressYourselfPage extends StatefulWidget {
 }
 
 class ExpressYourselfPageState extends State<ExpressYourselfPage> {
+  @override
+  void initState() {
+    super.initState();
+    _minPriceController.text = _selectedRange.start.toString();
+    _maxPriceController.text = _selectedRange.end.toString();
+  }
+
+  File? _profilePhoto;
+  RangeValues _selectedRange = const RangeValues(0, 100000);
   late MediaQueryData mediaQueryData = MediaQuery.of(context);
   TextEditingController? _textEditingController;
+  TextEditingController _minPriceController = TextEditingController();
+  TextEditingController _maxPriceController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   String? monthlySalaryValue;
+
   bool visibleValue = true;
-  RangeValues _currentRangeValues = const RangeValues(1500, 4500);
-  double? _startValue;
-  double? _endValue;
+
+  bool onPressWoman = true;
+  bool onPressMan = false;
+  bool onPressOthers = false;
+  bool onPressPetYes = true;
+  bool onPressPetNo = false;
+
+  bool petCountOne = true;
+  bool petCountTwo = false;
+  bool petCountThree = false;
+
+  bool addIncomeYes = true;
+  bool addIncomeNo = false;
+
+  bool deleteIconVisibility = false;
+
+  double _minPrice = 0.0;
+  double _maxPrice = 100000.0;
+
   DateTime dateTime = DateTime.now();
-  // DateFormat dateTimeFormat = DateFormat.yMMMMd();
-  // String dateTime = dateTimeFormat.format(DateTime.now());
+
+  pickProfilePhoto() async {
+    // Select an image from the user's device
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        // Set the profile photo file to the selected image
+        _profilePhoto = File(pickedFile.path);
+        setState(() {
+          deleteIconVisibility = true;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +100,7 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                         children: [
                           IconButton(
                             onPressed: () {
-                              AppUtils.startPop(context);
+                              AppUtils.startPop(context, educationStatus);
                             },
                             icon: Icon(
                               Icons.arrow_back,
@@ -97,19 +141,48 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                             height: 120.0,
                             width: 120.0,
                             decoration: BoxDecoration(
-                              color: UIColor.gray,
+                              color: _profilePhoto != null
+                                  ? UIColor.profileFillColor
+                                  : UIColor.gray,
                               borderRadius: BorderRadius.circular(24.0),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(18.0),
-                              child: CircleAvatar(
-                                backgroundColor: UIColor.profileBackground,
-                                child: const Icon(
-                                  Icons.person,
-                                  color: Colors.grey,
-                                  size: 60.0,
+                            child: Stack(
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 24.0),
+                                      child: CircleAvatar(
+                                        radius: 35.0,
+                                        backgroundImage: _profilePhoto != null
+                                            ? FileImage(_profilePhoto!)
+                                            : const AssetImage(
+                                                    'assets/images/icon.png')
+                                                as ImageProvider,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
+                                Visibility(
+                                  visible: deleteIconVisibility,
+                                  child: Positioned(
+                                    top: 0.0,
+                                    right: 0.0,
+                                    child: IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      color: Colors.white,
+                                      onPressed: () {
+                                        setState(() {
+                                          _profilePhoto = null;
+                                          deleteIconVisibility = false;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -144,12 +217,16 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                       child: Row(
                         children: [
                           OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              pickProfilePhoto();
+                            },
                             style: OutlinedButton.styleFrom(
                               side: BorderSide(color: UIColor.buttonBorder),
                             ),
                             child: Text(
-                              UIText.addButton,
+                              _profilePhoto != null
+                                  ? UIText.changePhoto
+                                  : UIText.addButton,
                               style: TextStyle(color: UIColor.buttonBorder),
                             ),
                           ),
@@ -176,16 +253,32 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                         children: [
                           Column(
                             children: [
-                              SizedBox(
-                                height: 50.0,
-                                width: mediaQueryData.size.width * 0.9,
-                                child: OutlinedButton(
-                                  onPressed: () {},
-                                  style: OutlinedButton.styleFrom(
-                                    side:
-                                        BorderSide(color: UIColor.buttonBorder),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: SizedBox(
+                                  height: 50.0,
+                                  width: mediaQueryData.size.width * 0.9,
+                                  child: OutlinedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        onPressWoman = true;
+                                        onPressMan = false;
+                                        onPressOthers = false;
+                                      });
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor: onPressWoman == true
+                                          ? UIColor.buttonFillColor
+                                          : UIColor.white,
+                                      side: BorderSide(
+                                          color: onPressWoman == true
+                                              ? UIColor.buttonBorder
+                                              : UIColor.lightButtonBorder),
+                                    ),
+                                    child: Text(
+                                      UIText.genderWoman,
+                                    ),
                                   ),
-                                  child: Text(UIText.genderWoman),
                                 ),
                               ),
                               Padding(
@@ -194,10 +287,21 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                                   height: 50.0,
                                   width: mediaQueryData.size.width * 0.9,
                                   child: OutlinedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      setState(() {
+                                        onPressWoman = false;
+                                        onPressMan = true;
+                                        onPressOthers = false;
+                                      });
+                                    },
                                     style: OutlinedButton.styleFrom(
+                                      backgroundColor: onPressMan == true
+                                          ? UIColor.buttonFillColor
+                                          : UIColor.white,
                                       side: BorderSide(
-                                          color: UIColor.lightButtonBorder),
+                                          color: onPressMan == true
+                                              ? UIColor.buttonBorder
+                                              : UIColor.lightButtonBorder),
                                     ),
                                     child: Text(UIText.genderMan),
                                   ),
@@ -209,10 +313,21 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                                   height: 50.0,
                                   width: mediaQueryData.size.width * 0.9,
                                   child: OutlinedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      setState(() {
+                                        onPressWoman = false;
+                                        onPressMan = false;
+                                        onPressOthers = true;
+                                      });
+                                    },
                                     style: OutlinedButton.styleFrom(
+                                      backgroundColor: onPressOthers == true
+                                          ? UIColor.buttonFillColor
+                                          : UIColor.white,
                                       side: BorderSide(
-                                          color: UIColor.lightButtonBorder),
+                                          color: onPressOthers == true
+                                              ? UIColor.buttonBorder
+                                              : UIColor.lightButtonBorder),
                                     ),
                                     child: Text(UIText.genderOthers),
                                   ),
@@ -249,9 +364,20 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                             child: OutlinedButton(
                               onPressed: () {
                                 setState(() {
+                                  onPressPetYes = true;
+                                  onPressPetNo = false;
                                   visibleValue = true;
                                 });
                               },
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: onPressPetYes == true
+                                    ? UIColor.buttonFillColor
+                                    : UIColor.white,
+                                side: BorderSide(
+                                    color: onPressPetYes == true
+                                        ? UIColor.buttonBorder
+                                        : UIColor.lightButtonBorder),
+                              ),
                               child: Text(UIText.yesButton),
                             ),
                           ),
@@ -261,9 +387,20 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                             child: OutlinedButton(
                               onPressed: () {
                                 setState(() {
+                                  onPressPetYes = false;
+                                  onPressPetNo = true;
                                   visibleValue = false;
                                 });
                               },
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: onPressPetNo == true
+                                    ? UIColor.buttonFillColor
+                                    : UIColor.white,
+                                side: BorderSide(
+                                    color: onPressPetNo == true
+                                        ? UIColor.buttonBorder
+                                        : UIColor.lightButtonBorder),
+                              ),
                               child: Text(UIText.noButton),
                             ),
                           ),
@@ -295,7 +432,22 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                                 height: 50.0,
                                 width: mediaQueryData.size.width * 0.9,
                                 child: OutlinedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    setState(() {
+                                      petCountOne = true;
+                                      petCountTwo = false;
+                                      petCountThree = false;
+                                    });
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    backgroundColor: petCountOne == true
+                                        ? UIColor.buttonFillColor
+                                        : UIColor.white,
+                                    side: BorderSide(
+                                        color: petCountOne == true
+                                            ? UIColor.buttonBorder
+                                            : UIColor.lightButtonBorder),
+                                  ),
                                   child: Text(UIText.countButtonOne),
                                 ),
                               ),
@@ -305,7 +457,22 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                                   height: 50.0,
                                   width: mediaQueryData.size.width * 0.9,
                                   child: OutlinedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      setState(() {
+                                        petCountOne = false;
+                                        petCountTwo = true;
+                                        petCountThree = false;
+                                      });
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor: petCountTwo == true
+                                          ? UIColor.buttonFillColor
+                                          : UIColor.white,
+                                      side: BorderSide(
+                                          color: petCountTwo == true
+                                              ? UIColor.buttonBorder
+                                              : UIColor.lightButtonBorder),
+                                    ),
                                     child: Text(UIText.countButtonTwo),
                                   ),
                                 ),
@@ -316,7 +483,22 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                                   height: 50.0,
                                   width: mediaQueryData.size.width * 0.9,
                                   child: OutlinedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      setState(() {
+                                        petCountOne = false;
+                                        petCountTwo = false;
+                                        petCountThree = true;
+                                      });
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor: petCountThree == true
+                                          ? UIColor.buttonFillColor
+                                          : UIColor.white,
+                                      side: BorderSide(
+                                          color: petCountThree == true
+                                              ? UIColor.buttonBorder
+                                              : UIColor.lightButtonBorder),
+                                    ),
                                     child: Text(UIText.countButtonThree),
                                   ),
                                 ),
@@ -349,20 +531,38 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                             width: mediaQueryData.size.width * 0.9,
                             child: OutlinedButton(
                               onPressed: () {
-                                AppUtils.startPush(context,
-                                    route: Routes.educationalStatusPage);
+                                // AppUtils.startPush(context,
+                                //         route: Routes.educationalStatusPage)
+                                //     .then((result) {
+                                //   setState(() {
+                                //     educationStatus = result["educationStatus"];
+                                //   });
+                                // });
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EducationalStatusPage()),
+                                ).then((result) {
+                                  setState(() {
+                                    educationStatus = result["educationStatus"];
+                                  });
+                                });
                               },
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    UIText.dropdownHint,
+                                    educationStatus ?? UIText.dropdownHint,
                                     style: TextStyle(
                                         color: UIColor.chooseButtonColor,
                                         fontSize: 14.0),
                                   ),
-                                  const Icon(Icons.wheelchair_pickup),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    color: UIColor.darkGray,
+                                  ),
                                 ],
                               ),
                             ),
@@ -396,8 +596,8 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                           hintText: "25.000",
                           suffixIcon: const Icon(Icons.currency_lira_rounded),
                           enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1, color: UIColor.gray),
+                            borderSide: BorderSide(
+                                width: 1, color: UIColor.chooseButtonColor),
                             //borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
@@ -429,9 +629,20 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                             child: OutlinedButton(
                               onPressed: () {
                                 setState(() {
+                                  addIncomeYes = true;
+                                  addIncomeNo = false;
                                   visibleValue = true;
                                 });
                               },
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: addIncomeYes == true
+                                    ? UIColor.buttonFillColor
+                                    : UIColor.white,
+                                side: BorderSide(
+                                    color: addIncomeYes == true
+                                        ? UIColor.buttonBorder
+                                        : UIColor.lightButtonBorder),
+                              ),
                               child: Text(UIText.yesButton),
                             ),
                           ),
@@ -441,9 +652,20 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                             child: OutlinedButton(
                               onPressed: () {
                                 setState(() {
+                                  addIncomeYes = false;
+                                  addIncomeNo = true;
                                   visibleValue = false;
                                 });
                               },
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: addIncomeNo == true
+                                    ? UIColor.buttonFillColor
+                                    : UIColor.white,
+                                side: BorderSide(
+                                    color: addIncomeNo == true
+                                        ? UIColor.buttonBorder
+                                        : UIColor.lightButtonBorder),
+                              ),
                               child: Text(UIText.noButton),
                             ),
                           ),
@@ -489,7 +711,10 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                                               color: UIColor.chooseButtonColor,
                                               fontSize: 14.0),
                                         ),
-                                        const Icon(Icons.wheelchair_pickup),
+                                        Icon(
+                                          Icons.currency_exchange,
+                                          color: UIColor.darkGray,
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -563,17 +788,22 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: RangeSlider(
+                        //values: RangeValues(_minPrice, _maxPrice),
+                        values: _selectedRange,
                         min: 0.0,
                         max: 100000.0,
-                        values: _currentRangeValues,
+                        divisions: 1000,
                         labels: RangeLabels(
-                          _currentRangeValues.start.round().toString(),
-                          _currentRangeValues.end.round().toString(),
+                          _minPrice.toStringAsFixed(0),
+                          _maxPrice.toStringAsFixed(0),
                         ),
-                        inactiveColor: UIColor.gray,
-                        onChanged: (values) {
+                        onChanged: (RangeValues values) {
                           setState(() {
-                            _currentRangeValues = values;
+                            // _minPrice = values.start;
+                            // _maxPrice = values.end;
+                            _selectedRange = values;
+                            _minPriceController.text = values.start.toString();
+                            _maxPriceController.text = values.end.toString();
                           });
                         },
                       ),
@@ -601,14 +831,13 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                               height: 50.0,
                               width: mediaQueryData.size.width * 0.38,
                               child: TextFormField(
-                                controller: _textEditingController,
-                                onSaved: (inputValue) {
-                                  _startValue = inputValue! as double;
-                                  log(_startValue.toString());
-                                },
+                                controller: _minPriceController,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   hintText: "1.500",
+                                  // labelText: _minPrice == 0.0
+                                  //     ? _minPrice.toString()
+                                  //     : "1.500",
                                   suffixIcon:
                                       const Icon(Icons.currency_lira_rounded),
                                   enabledBorder: OutlineInputBorder(
@@ -622,8 +851,7 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                               height: 50.0,
                               width: mediaQueryData.size.width * 0.38,
                               child: TextFormField(
-                                onSaved: (inputValue) =>
-                                    _endValue = inputValue as double,
+                                controller: _maxPriceController,
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   hintText: "4.500",
@@ -632,7 +860,6 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         width: 1, color: UIColor.gray),
-                                    //borderRadius: BorderRadius.circular(10.0),
                                   ),
                                 ),
                               ),

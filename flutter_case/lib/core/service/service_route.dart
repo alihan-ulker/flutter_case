@@ -17,8 +17,11 @@ class RouteService {
   //Route Handlers
   static final Handler _handlerWelcome =
       Handler(handlerFunc: (context, parameters) => const WelcomePage());
-  static final Handler _handlerExpressYourselfPage = Handler(
-      handlerFunc: (context, parameters) => const ExpressYourselfPage());
+  static final Handler _handlerExpressYourselfPage =
+      Handler(handlerFunc: (context, parameters) {
+    String? educationData = parameters["educationStatus"]?.first;
+    return const ExpressYourselfPage();
+  });
   static final Handler _handlerEducationalStatusPage = Handler(
       handlerFunc: (context, parameters) => const EducationalStatusPage());
 

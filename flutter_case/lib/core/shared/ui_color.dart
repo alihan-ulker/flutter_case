@@ -16,4 +16,6 @@ class UIColor {
   static Color lightButtonBorder = const Color(0xFFEDE8E9);
   static Color chooseButtonColor = const Color(0xFF908E8E);
   static Color saveButtonColor = const Color(0xFF006DFF);
+  static Color buttonFillColor = const Color.fromRGBO(0, 109, 255, 0.25);
+  static Color profileFillColor = const Color.fromRGBO(229, 237, 255, 1.0);
 }

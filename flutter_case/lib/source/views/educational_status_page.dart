@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_case/core/shared/ui_color.dart';
 import 'package:flutter_case/core/shared/ui_text.dart';
+import 'package:flutter_case/core/utils/app_consts.dart';
 import 'package:flutter_case/core/utils/app_utils.dart';
 
 class EducationalStatusPage extends StatefulWidget {
@@ -10,9 +13,12 @@ class EducationalStatusPage extends StatefulWidget {
   EducationalStatusPageState createState() => EducationalStatusPageState();
 }
 
+var educationStatus;
+
 class EducationalStatusPageState extends State<EducationalStatusPage> {
   late MediaQueryData mediaQueryData = MediaQuery.of(context);
-  List educationalStatus = ["Doktara", "İlkokul", "Lise", "Üniversite"];
+  var education = AppConsts().educationalStatus;
+  Map<String, dynamic> messageData = {'educationStatus': '$educationStatus'};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +50,8 @@ class EducationalStatusPageState extends State<EducationalStatusPage> {
                             children: [
                               IconButton(
                                 onPressed: () {
-                                  AppUtils.startPop(context);
+                                  AppUtils.startPop(context, messageData);
+                                  //Navigator.pop(context, educationStatus);
                                 },
                                 icon: Icon(
                                   Icons.arrow_back,
@@ -80,17 +87,33 @@ class EducationalStatusPageState extends State<EducationalStatusPage> {
                     ListView.separated(
                       physics: const ScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: educationalStatus.length,
+                      itemCount: education.length,
                       itemBuilder: (context, index) {
                         return ListTile(
                           title: Text(
-                            "${educationalStatus[index]}",
+                            "${education[index]}",
                             style: TextStyle(
                               color: UIColor.chooseButtonColor,
                               fontSize: 14.0,
                             ),
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            setState(() {
+                              educationStatus = education[index];
+                              messageData = {
+                                'educationStatus': '$educationStatus'
+                              };
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("$educationStatus"),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                              //Clicking on the training status returns to the previous page.
+                              //AppUtils.startPop(context, messageData);
+                            });
+                            log(educationStatus);
+                          },
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) {
