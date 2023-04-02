@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_case/core/service/service_route.dart';
 import 'package:flutter_case/core/shared/ui_color.dart';
 import 'package:flutter_case/core/shared/ui_text.dart';
+import 'package:flutter_case/core/utils/app_utils.dart';
 import 'package:intl/intl.dart';
 
 class ExpressYourselfPage extends StatefulWidget {
@@ -53,7 +55,9 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              AppUtils.startPop(context);
+                            },
                             icon: Icon(
                               Icons.arrow_back,
                               color: UIColor.darkGray,
@@ -344,7 +348,10 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                             height: 50.0,
                             width: mediaQueryData.size.width * 0.9,
                             child: OutlinedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                AppUtils.startPush(context,
+                                    route: Routes.educationalStatusPage);
+                              },
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
