@@ -142,8 +142,8 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
     //Get Price Range
     var min = _minPriceController.text;
     var max = _maxPriceController.text;
-    log("Min Price: $min");
-    log("Min Price: $max");
+    log("Min Price: $min" " TL");
+    log("Min Price: $max" " TL");
 
     //Get About Yourself
     if (aboutYourselfValue != null) {
@@ -154,6 +154,8 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
 
     //Get Update Date
     log("Update Date: ${dateTime.day}.${dateTime.month}.${dateTime.year} tarihinde güncellendi.");
+
+    Navigator.pop(context);
   }
 
   @override
