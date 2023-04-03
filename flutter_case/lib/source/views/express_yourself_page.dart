@@ -26,12 +26,19 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
   File? _profilePhoto;
   RangeValues _selectedRange = const RangeValues(0, 100000);
   late MediaQueryData mediaQueryData = MediaQuery.of(context);
-  TextEditingController? _textEditingController;
+  TextEditingController _mounthlySalaryController = TextEditingController();
+  TextEditingController _rentalAmountController = TextEditingController();
+  TextEditingController _aboutYourselfController = TextEditingController();
   TextEditingController _minPriceController = TextEditingController();
   TextEditingController _maxPriceController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  String? monthlySalaryValue;
+  final _mounthlySalary = GlobalKey<FormState>();
+  final _rentalAmount = GlobalKey<FormState>();
+  final _aboutYourself = GlobalKey<FormState>();
+  String? mounthlySalaryValue;
+  String? rentalAmountValue;
+  String? aboutYourselfValue;
 
   bool visibleValue = true;
 
@@ -69,6 +76,84 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
         });
       }
     });
+  }
+
+  //All Saved Data Logs
+  saveAllData() {
+    //Get Profile Photo Path Data
+    if (_profilePhoto != null) {
+      log("Photo Path: ${_profilePhoto!.path}");
+    } else {
+      log("Profile photo not selected.");
+    }
+
+    //Get Gender Data
+    if (onPressWoman == true) {
+      log("Gender: ${UIText.genderWoman}");
+    }
+    if (onPressMan == true) {
+      log("Gender: ${UIText.genderMan}");
+    }
+    if (onPressOthers == true) {
+      log("Gender: ${UIText.genderOthers}");
+    }
+
+    //Get Pet Data
+    if (onPressPetYes == true) {
+      if (petCountOne == true) {
+        log("Pet Count: ${UIText.countButtonOne}");
+      }
+      if (petCountTwo == true) {
+        log("Pet Count: ${UIText.countButtonTwo}");
+      }
+      if (petCountThree == true) {
+        log("Pet Count: ${UIText.countButtonThree}");
+      }
+    }
+
+    //Get Educational Status
+    if (educationStatus != null) {
+      log("Education Status: $educationStatus");
+    } else {
+      log("Education Status: Educational status unknown.");
+    }
+
+    //Get Mounthly Salary
+    if (mounthlySalaryValue != null) {
+      log("Mounthly Salary: $mounthlySalaryValue" " TL");
+    } else {
+      log("Mounthly Salary: Mounthly salary unknown.");
+    }
+
+    //Get Additional Income
+    if (addIncomeYes == true) {
+      log("Additional Income: Income type will be determined.");
+    } else {
+      log("Additional Income: No additional income.");
+    }
+
+    //Get Rental Amount
+    if (rentalAmountValue != null) {
+      log("Rental Amount: $rentalAmountValue" " TL");
+    } else {
+      log("Rental Amount: Rental Amount unknown.");
+    }
+
+    //Get Price Range
+    var min = _minPriceController.text;
+    var max = _maxPriceController.text;
+    log("Min Price: $min");
+    log("Min Price: $max");
+
+    //Get About Yourself
+    if (aboutYourselfValue != null) {
+      log("About Yourself: $aboutYourselfValue");
+    } else {
+      log("About Yourself: About yourself is blank");
+    }
+
+    //Get Update Date
+    log("Update Date: ${dateTime.day}.${dateTime.month}.${dateTime.year} tarihinde güncellendi.");
   }
 
   @override
@@ -531,13 +616,6 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                             width: mediaQueryData.size.width * 0.9,
                             child: OutlinedButton(
                               onPressed: () {
-                                // AppUtils.startPush(context,
-                                //         route: Routes.educationalStatusPage)
-                                //     .then((result) {
-                                //   setState(() {
-                                //     educationStatus = result["educationStatus"];
-                                //   });
-                                // });
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -587,18 +665,21 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 18.0, right: 20.0),
-                      child: TextFormField(
-                        onTap: () {},
-                        onSaved: (inputValue) =>
-                            monthlySalaryValue = inputValue,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          hintText: "25.000",
-                          suffixIcon: const Icon(Icons.currency_lira_rounded),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                width: 1, color: UIColor.chooseButtonColor),
-                            //borderRadius: BorderRadius.circular(10.0),
+                      child: Form(
+                        key: _mounthlySalary,
+                        child: TextFormField(
+                          controller: _mounthlySalaryController,
+                          onChanged: (inputValue) =>
+                              mounthlySalaryValue = inputValue,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: "25.000",
+                            suffixIcon: const Icon(Icons.currency_lira_rounded),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  width: 1, color: UIColor.chooseButtonColor),
+                              //borderRadius: BorderRadius.circular(10.0),
+                            ),
                           ),
                         ),
                       ),
@@ -755,18 +836,21 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 18.0, right: 20.0),
-                      child: TextFormField(
-                        onTap: () {},
-                        onSaved: (inputValue) =>
-                            monthlySalaryValue = inputValue,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          hintText: "7.000",
-                          suffixIcon: const Icon(Icons.currency_lira_rounded),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1, color: UIColor.gray),
-                            //borderRadius: BorderRadius.circular(10.0),
+                      child: Form(
+                        key: _rentalAmount,
+                        child: TextFormField(
+                          controller: _rentalAmountController,
+                          onChanged: (inputValue) =>
+                              rentalAmountValue = inputValue,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: "7.000",
+                            suffixIcon: const Icon(Icons.currency_lira_rounded),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: UIColor.gray),
+                              //borderRadius: BorderRadius.circular(10.0),
+                            ),
                           ),
                         ),
                       ),
@@ -835,11 +919,9 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   hintText: "1.500",
-                                  // labelText: _minPrice == 0.0
-                                  //     ? _minPrice.toString()
-                                  //     : "1.500",
-                                  suffixIcon:
-                                      const Icon(Icons.currency_lira_rounded),
+                                  suffixText: "TL",
+                                  // suffixIcon:
+                                  //     const Icon(Icons.currency_lira_rounded),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         width: 1, color: UIColor.gray),
@@ -855,8 +937,9 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   hintText: "4.500",
-                                  suffixIcon:
-                                      const Icon(Icons.currency_lira_rounded),
+                                  suffixText: "TL",
+                                  // suffixIcon:
+                                  //     const Icon(Icons.currency_lira_rounded),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         width: 1, color: UIColor.gray),
@@ -897,15 +980,20 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 18.0, right: 20.0),
-                      child: TextField(
-                        maxLines: 6,
-                        maxLength: 300,
-                        decoration: InputDecoration(
-                          hintText: UIText.aboutYourselfFormHint,
-                          hintStyle: const TextStyle(fontSize: 12.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16.0),
+                      child: Form(
+                        key: _aboutYourself,
+                        child: TextField(
+                          controller: _aboutYourselfController,
+                          maxLines: 6,
+                          maxLength: 300,
+                          decoration: InputDecoration(
+                            hintText: UIText.aboutYourselfFormHint,
+                            hintStyle: const TextStyle(fontSize: 12.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
                           ),
+                          onChanged: (value) => aboutYourselfValue = value,
                         ),
                       ),
                     ),
@@ -935,7 +1023,9 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                             height: 50.0,
                             width: mediaQueryData.size.width * 0.47,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                saveAllData();
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: UIColor.saveButtonColor,
                               ),

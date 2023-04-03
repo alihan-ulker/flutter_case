@@ -51,7 +51,6 @@ class EducationalStatusPageState extends State<EducationalStatusPage> {
                               IconButton(
                                 onPressed: () {
                                   AppUtils.startPop(context, messageData);
-                                  //Navigator.pop(context, educationStatus);
                                 },
                                 icon: Icon(
                                   Icons.arrow_back,
