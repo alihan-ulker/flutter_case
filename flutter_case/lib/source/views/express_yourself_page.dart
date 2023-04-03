@@ -6,6 +6,7 @@ import 'package:flutter_case/core/shared/ui_color.dart';
 import 'package:flutter_case/core/shared/ui_text.dart';
 import 'package:flutter_case/core/utils/app_utils.dart';
 import 'package:flutter_case/source/views/educational_status_page.dart';
+import 'package:flutter_case/source/widgets/base_widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ExpressYourselfPage extends StatefulWidget {
@@ -155,6 +156,7 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
     //Get Update Date
     log("Update Date: ${dateTime.day}.${dateTime.month}.${dateTime.year} tarihinde güncellendi.");
 
+    //Return to previous page.
     Navigator.pop(context);
   }
 
@@ -277,26 +279,8 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                     ),
 
                     //Profile Subtitle
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            UIText.profilePhoto,
-                            style: TextStyle(
-                                fontSize: 16.0, color: UIColor.darkGray),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
-                      child: Row(
-                        children: [
-                          Text(UIText.profilePhotoTitle),
-                        ],
-                      ),
-                    ),
+                    const ProfilePhoto(),
+                    const ProfilePhotoTitle(),
 
                     //Add Button
                     Padding(
@@ -322,18 +306,7 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                     ),
 
                     //Gender Buttons
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            UIText.gender,
-                            style: TextStyle(
-                                color: UIColor.darkGray, fontSize: 16.0),
-                          ),
-                        ],
-                      ),
-                    ),
+                    const Gender(),
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, top: 18.0),
                       child: Row(
@@ -427,18 +400,7 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                     ),
 
                     //Pet Buttons
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            UIText.petQuestion,
-                            style: TextStyle(
-                                color: UIColor.darkGray, fontSize: 16.0),
-                          ),
-                        ],
-                      ),
-                    ),
+                    const PetQuestion(),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 18.0, right: 20.0),
@@ -500,19 +462,7 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                       visible: visibleValue,
                       child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20.0, top: 18.0, bottom: 18.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  UIText.petTitle,
-                                  style: TextStyle(
-                                      color: UIColor.darkGray, fontSize: 16.0),
-                                ),
-                              ],
-                            ),
-                          ),
+                          const PetTitle(),
                           Column(
                             children: [
                               SizedBox(
@@ -597,18 +547,7 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                     ),
 
                     //Educational Status
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            UIText.educationalStatus,
-                            style: TextStyle(
-                                color: UIColor.darkGray, fontSize: 16.0),
-                          ),
-                        ],
-                      ),
-                    ),
+                    const EducationalStatus(),
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, top: 18.0),
                       child: Row(
@@ -651,19 +590,8 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                       ),
                     ),
 
-                    //Monthly Salary
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            UIText.monthlySalary,
-                            style: TextStyle(
-                                color: UIColor.darkGray, fontSize: 16.0),
-                          ),
-                        ],
-                      ),
-                    ),
+                    //Mounthly Salary
+                    const MounthlySalary(),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 18.0, right: 20.0),
@@ -680,7 +608,6 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   width: 1, color: UIColor.chooseButtonColor),
-                              //borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
                         ),
@@ -688,18 +615,7 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                     ),
 
                     //Additional Income
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            UIText.additionalIncome,
-                            style: TextStyle(
-                                color: UIColor.darkGray, fontSize: 16.0),
-                          ),
-                        ],
-                      ),
-                    ),
+                    const AdditionalIncome(),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 18.0, right: 20.0),
@@ -761,19 +677,7 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                       visible: visibleValue,
                       child: Column(
                         children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 20.0, top: 18.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  UIText.additionalIncomeType,
-                                  style: TextStyle(
-                                      color: UIColor.darkGray, fontSize: 16.0),
-                                ),
-                              ],
-                            ),
-                          ),
+                          const AddIncomeType(),
                           Padding(
                             padding:
                                 const EdgeInsets.only(left: 20.0, top: 18.0),
@@ -805,36 +709,13 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 20.0, top: 18.0),
-                            child: Row(
-                              children: [
-                                TextButton.icon(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.add),
-                                  label: Text(UIText.addIncome),
-                                ),
-                              ],
-                            ),
-                          ),
+                          const AddIncomeButton(),
                         ],
                       ),
                     ),
 
                     //Rental Amount
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            UIText.rentalAmount,
-                            style: TextStyle(
-                                color: UIColor.darkGray, fontSize: 16.0),
-                          ),
-                        ],
-                      ),
-                    ),
+                    const RentalAmount(),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 18.0, right: 20.0),
@@ -851,7 +732,6 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                             enabledBorder: OutlineInputBorder(
                               borderSide:
                                   BorderSide(width: 1, color: UIColor.gray),
-                              //borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
                         ),
@@ -859,22 +739,10 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                     ),
 
                     //Price Range
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            UIText.priceRange,
-                            style: TextStyle(
-                                color: UIColor.darkGray, fontSize: 16.0),
-                          ),
-                        ],
-                      ),
-                    ),
+                    const PriceRange(),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: RangeSlider(
-                        //values: RangeValues(_minPrice, _maxPrice),
                         values: _selectedRange,
                         min: 0.0,
                         max: 100000.0,
@@ -885,8 +753,6 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                         ),
                         onChanged: (RangeValues values) {
                           setState(() {
-                            // _minPrice = values.start;
-                            // _maxPrice = values.end;
                             _selectedRange = values;
                             _minPriceController.text = values.start.toString();
                             _maxPriceController.text = values.end.toString();
@@ -894,17 +760,7 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20.0, top: 18.0, right: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(UIText.lowest),
-                          Text(UIText.highest),
-                        ],
-                      ),
-                    ),
+                    const MinMaxPrice(),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 18.0, right: 20.0),
@@ -922,8 +778,6 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                                 decoration: InputDecoration(
                                   hintText: "1.500",
                                   suffixText: "TL",
-                                  // suffixIcon:
-                                  //     const Icon(Icons.currency_lira_rounded),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         width: 1, color: UIColor.gray),
@@ -940,8 +794,6 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                                 decoration: InputDecoration(
                                   hintText: "4.500",
                                   suffixText: "TL",
-                                  // suffixIcon:
-                                  //     const Icon(Icons.currency_lira_rounded),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         width: 1, color: UIColor.gray),
@@ -955,30 +807,8 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                     ),
 
                     //About Yourself
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 18.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            UIText.aboutYourself,
-                            style: TextStyle(
-                                color: UIColor.darkGray, fontSize: 16.0),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 8.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            UIText.aboutYourselfHint,
-                            style:
-                                TextStyle(color: UIColor.gray, fontSize: 16.0),
-                          ),
-                        ],
-                      ),
-                    ),
+                    const AboutYourself(),
+                    const AboutYourselfHint(),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 20.0, top: 18.0, right: 20.0),
@@ -1001,19 +831,7 @@ class ExpressYourselfPageState extends State<ExpressYourselfPage> {
                     ),
 
                     //Update Date
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, top: 8.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            "${dateTime.day}.${dateTime.month}.${dateTime.year} tarihinde güncellendi.",
-                            style: TextStyle(
-                              color: UIColor.chooseButtonColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    UpdateDate(dateTime: dateTime),
 
                     //Save Button
                     Padding(
